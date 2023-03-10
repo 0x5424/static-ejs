@@ -47,7 +47,7 @@ const toBuild = readFileSync('./data/main.csv')
 const ctaPage = readFileSync('./index.html.ejs').toString()
 const ctaStyle = readFileSync('./style.css.ejs').toString()
 
-parseCSV(toBuild).forEach(([companyName,title,description,ctaText,ctaUrl,contactInfo,themeColor], idx) => {
+parseCSV(toBuild).forEach(([companyName,title,description,ctaText,ctaUrl,qrUrl,contactInfo,themeColor], idx) => {
   if (idx === 0) return 'Skip header row'
   if (idx > 1) return 'Only generates 1 site at a time'
 
@@ -57,6 +57,7 @@ parseCSV(toBuild).forEach(([companyName,title,description,ctaText,ctaUrl,contact
     description,
     ctaText,
     ctaUrl,
+    qrUrl,
     contactInfo,
     themeColor
   }
@@ -65,5 +66,5 @@ parseCSV(toBuild).forEach(([companyName,title,description,ctaText,ctaUrl,contact
 
   writeFileSync('./build/index.html', render(ctaPage, data))
   writeFileSync('./build/style.css', render(ctaStyle, data))
-  toFile('./build/cta-qr.png', ctaUrl, { errorCorrectionLevel: 'H' })
+  toFile('./build/cta-qr.png', qrUrl, { errorCorrectionLevel: 'H' })
 })
